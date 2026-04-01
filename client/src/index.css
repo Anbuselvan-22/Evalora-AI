@@ -1,0 +1,390 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Global dark theme ─────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-100 font-sans antialiased;
+    background-image: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Floating navbar background */
+  .floating-nav-bg {
+    background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-500;
+  }
+
+  /* Focus ring */
+  :focus-visible {
+    @apply outline-none ring-2 ring-indigo-500 ring-offset-2 ring-offset-slate-950;
+  }
+}
+
+/* ── Reusable component layer ──────────────────────────────────── */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
+           bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700
+           text-white font-medium text-sm transition-colors duration-150
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
+           bg-slate-700 hover:bg-slate-600 active:bg-slate-800
+           text-slate-100 font-medium text-sm transition-colors duration-150
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .input-field {
+    @apply w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700
+           text-slate-100 placeholder-slate-500 text-sm
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+           transition-colors duration-150;
+  }
+
+  .card {
+    @apply rounded-xl p-5 glass;
+  }
+
+  .page-wrapper {
+    @apply p-6 space-y-6;
+  }
+
+  .page-title {
+    @apply text-2xl font-bold text-slate-100;
+  }
+
+  .section-title {
+    @apply text-lg font-semibold text-slate-200;
+  }
+
+  .table-base {
+    @apply w-full text-sm text-left text-slate-300;
+  }
+
+  .table-base thead {
+    @apply text-xs text-slate-400 uppercase bg-slate-800/50;
+  }
+
+  .table-base th {
+    @apply px-4 py-3;
+  }
+
+  .table-base td {
+    @apply px-4 py-3 border-t border-slate-800;
+  }
+
+  .table-base tbody tr {
+    @apply hover:bg-slate-800/40 transition-colors duration-100 cursor-pointer;
+  }
+}
+
+/* ── Custom animations ─────────────────────────────────────────── */
+@layer utilities {
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+
+  .glass-card {
+    @apply glass rounded-xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-xl;
+  }
+
+  .teacher-dashboard-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+
+  .stat-card-enhanced {
+    @apply glass-card relative overflow-hidden;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+  }
+
+  .stat-card-enhanced::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 opacity-0 transition-opacity duration-300;
+  }
+
+  .stat-card-enhanced:hover::before {
+    @apply opacity-100;
+  }
+
+  .evaluations-table {
+    @apply w-full text-sm text-left;
+  }
+
+  .evaluations-table thead {
+    @apply text-xs text-slate-400 uppercase bg-slate-800/30 backdrop-blur-sm;
+  }
+
+  .evaluations-table th {
+    @apply px-6 py-4 font-semibold text-left;
+  }
+
+  .evaluations-table td {
+    @apply px-6 py-4 border-t border-slate-700/50 text-slate-200;
+  }
+
+  .evaluations-table tbody tr {
+    @apply hover:bg-slate-700/20 transition-all duration-200 hover:scale-[1.01];
+  }
+
+  .dashboard-header {
+    @apply mb-8 pb-6 border-b border-slate-700/50;
+  }
+
+  .dashboard-title {
+    @apply text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400;
+  }
+
+  .section-card {
+    @apply glass-card mt-8;
+  }
+
+  .section-title-enhanced {
+    @apply text-xl font-semibold text-slate-100 mb-6 flex items-center gap-3;
+  }
+
+  .section-title-enhanced::before {
+    content: '';
+    @apply w-1 h-6 bg-gradient-to-b from-indigo-400 to-purple-400 rounded-full;
+  }
+
+  /* Student-specific styles */
+  .student-dashboard-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+
+  .student-stat-card {
+    @apply glass-card relative overflow-hidden;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+  }
+
+  .student-stat-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0 transition-opacity duration-300;
+  }
+
+  .student-stat-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .chart-container {
+    @apply glass-card p-6;
+  }
+
+  .chart-title {
+    @apply text-xl font-semibold text-slate-100 mb-6 flex items-center gap-3;
+  }
+
+  .chart-title::before {
+    content: '';
+    @apply w-1 h-6 bg-gradient-to-b from-blue-400 to-cyan-400 rounded-full;
+  }
+
+  .results-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+
+  .result-card {
+    @apply glass-card cursor-pointer relative overflow-hidden;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.02) 100%);
+  }
+
+  .result-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 opacity-0 transition-opacity duration-300;
+  }
+
+  .result-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .result-card:hover {
+    @apply scale-105 shadow-2xl;
+  }
+
+  .subject-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+
+  .subject-badge-math {
+    @apply bg-blue-500/20 text-blue-300 border border-blue-500/30;
+  }
+
+  .subject-badge-science {
+    @apply bg-green-500/20 text-green-300 border border-green-500/30;
+  }
+
+  .subject-badge-english {
+    @apply bg-purple-500/20 text-purple-300 border border-purple-500/30;
+  }
+
+  .subject-badge-history {
+    @apply bg-yellow-500/20 text-yellow-300 border border-yellow-500/30;
+  }
+
+  .chat-container {
+    @apply glass-card flex flex-col h-full;
+  }
+
+  .quick-action-btn {
+    @apply px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 transform hover:scale-105;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+    @apply border border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/25 hover:border-indigo-400/50 hover:shadow-lg;
+  }
+
+  .quick-action-btn:active {
+    @apply scale-95;
+  }
+
+  .chat-input-container {
+    @apply glass-card p-4 space-y-4;
+  }
+
+  .chat-input {
+    @apply w-full bg-slate-800/60 border border-slate-600/50 rounded-2xl px-6 py-4 text-base text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all duration-200;
+  }
+
+  .chat-send-btn {
+    @apply px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium rounded-2xl transition-all duration-200 transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+  }
+
+  .question-card {
+    @apply glass-card p-6 space-y-4;
+  }
+
+  .question-header {
+    @apply flex items-center justify-between pb-4 border-b border-slate-700/50;
+  }
+
+  .question-number {
+    @apply flex items-center gap-3 text-lg font-semibold text-slate-100;
+  }
+
+  .question-number-badge {
+    @apply w-8 h-8 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400 text-sm font-bold;
+  }
+
+  .score-badge {
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .score-excellent {
+    @apply bg-green-500/20 text-green-400 border border-green-500/30;
+  }
+
+  .score-good {
+    @apply bg-blue-500/20 text-blue-400 border border-blue-500/30;
+  }
+
+  .score-average {
+    @apply bg-yellow-500/20 text-yellow-400 border border-yellow-500/30;
+  }
+
+  .score-poor {
+    @apply bg-red-500/20 text-red-400 border border-red-500/30;
+  }
+}
+
+/* ── Custom animations ─────────────────────────────────────────── */
+@layer utilities {
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+    }
+  }
+
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .password-toggle-button:hover svg {
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400;
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+}
