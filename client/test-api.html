@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Connection Test</h1>
+    <div id="env"></div>
+    <div id="result"></div>
+    <button onclick="testAPI()">Test Login API</button>
+    
+    <script>
+        // Test environment variable
+        document.getElementById('env').innerHTML = `
+            <h3>Environment Test:</h3>
+            <p>VITE_API_URL would be: ${import.meta.env?.VITE_API_URL || 'Not available in static HTML'}</p>
+            <p>Current origin: ${window.location.origin}</p>
+        `;
+        
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Testing API...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:5001/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'student@example.com',
+                        password: 'password123',
+                        role: 'student'
+                    })
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <h3>✅ API Success!</h3>
+                    <p>Status: ${response.status}</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>❌ API Error:</h3>
+                    <p>Error: ${error.message}</p>
+                    <p>Stack: ${error.stack}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
