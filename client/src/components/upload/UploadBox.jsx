@@ -46,7 +46,7 @@ const UploadBox = ({ label, onFileSelect, accept }) => {
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-8 cursor-pointer transition-colors duration-200 ${borderClass}`}
+      className={`relative flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-4 cursor-pointer transition-colors duration-200 ${borderClass}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -59,12 +59,12 @@ const UploadBox = ({ label, onFileSelect, accept }) => {
         className="hidden"
         onChange={handleChange}
       />
-      <UploadIcon className={`w-8 h-8 ${selectedFile ? 'text-green-400' : 'text-slate-400'}`} />
+      <UploadIcon className={`w-6 h-6 ${selectedFile ? 'text-green-400' : 'text-slate-400'}`} />
       {selectedFile ? (
-        <p className="text-sm text-green-400 font-medium text-center break-all">{selectedFile.name}</p>
+        <p className="text-xs text-green-400 font-medium text-center break-all">{selectedFile.name}</p>
       ) : (
         <>
-          <p className="text-sm font-medium text-slate-300">{label}</p>
+          <p className="text-xs font-medium text-slate-300">{label}</p>
           <p className="text-xs text-slate-500">Drag & drop or click to browse</p>
         </>
       )}

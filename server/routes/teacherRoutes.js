@@ -6,6 +6,9 @@ import User from '../models/User.js';
 
 const router = express.Router();
 
+// Mock teacher notifications storage
+const teacherNotifications = new Map();
+
 router.use(requireRole('teacher'));
 
 // GET /api/teacher/dashboard
@@ -130,6 +133,57 @@ router.get('/results/:id', async (req, res) => {
     return res.json({
       success: true,
       data: result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+      code: 'INTERNAL_ERROR',
+    });
+  }
+});
+
+// POST /api/teacher/notifications
+router.post('/notifications', async (req, res) => {
+  try {
+    const notificationData = req.body;
+    
+    const notification = {
+      id: `teacher_notif_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      ...notificationData,
+      createdAt: new Date(),
+      read: false
+    };
+    
+    // Store notification for teacher
+    const teacherId = req.user.id;
+    if (!teacherNotifications.has(teacherId)) {
+      teacherNotifications.set(teacherId, []);
+    }
+    teacherNotifications.get(teacherId).unshift(notification);
+    
+    return res.json({
+      success: true,
+      data: notification
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+      code: 'INTERNAL_ERROR',
+    });
+  }
+});
+
+// GET /api/teacher/notifications
+router.get('/notifications', async (req, res) => {
+  try {
+    const teacherId = req.user.id;
+    const notifications = teacherNotifications.get(teacherId) || [];
+    
+    return res.json({
+      success: true,
+      data: notifications
     });
   } catch (error) {
     return res.status(500).json({

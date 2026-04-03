@@ -1,0 +1,1 @@
+import{a as s}from"./index-DYp16ujn.js";const r=async t=>(await s.post("/evaluate",t,{headers:{"Content-Type":"multipart/form-data"}})).data.data,o=async t=>(await s.get("/teacher/results",{signal:t})).data.data,p=async(t,a)=>(await s.get(`/teacher/results/${t}`,{signal:a})).data.data;export{p as a,o as g,r as s};

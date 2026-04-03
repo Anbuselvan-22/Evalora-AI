@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { getStudentCredentials, studentExists } from '../storage/studentCredentials.js';
 
 const generateToken = (userId, role) => {
   return jwt.sign(
@@ -25,6 +26,14 @@ const MOCK_USERS = {
     role: 'student',
     name: 'Jane Student',
   },
+  // Demo credentials from evaluation demo
+  'john.doe@evalora.ai': {
+    id: '507f1f77bcf86cd799439013',
+    email: 'john.doe@evalora.ai',
+    password: 'Demo@123456',
+    role: 'student',
+    name: 'John Doe',
+  },
 };
 
 export const login = async (req, res) => {
@@ -48,17 +57,21 @@ export const login = async (req, res) => {
       });
     }
 
-    // Try database first, fall back to mock users
+    // Try database first, fall back to mock users and student credentials
     let user = null;
     try {
       user = await User.findOne({ email }).select('+password');
     } catch (dbError) {
-      // Database not available, use mock
-      console.log('Database unavailable, using mock users for testing');
+      // Database not available, use mock and student credentials
+      console.log('Database unavailable, using mock users and student credentials for testing');
     }
 
     if (!user && MOCK_USERS[email]) {
       user = MOCK_USERS[email];
+    } else if (!user && studentExists(email)) {
+      // Check dynamically created student credentials
+      user = getStudentCredentials(email);
+      console.log(`Found student credentials for ${email}:`, { id: user.id, name: user.name, email: user.email });
     } else if (!user) {
       return res.status(401).json({
         success: false,

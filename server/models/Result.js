@@ -85,6 +85,10 @@ const resultSchema = new mongoose.Schema(
       max: 1,
       default: 0.85,
     },
+    language: {
+      type: String,
+      default: 'english',
+    },
   },
   {
     timestamps: true,
