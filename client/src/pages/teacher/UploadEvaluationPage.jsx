@@ -159,6 +159,7 @@ const UploadEvaluationPage = () => {
           // Update mock data with current form values
           const updatedMockResult = {
             ...mockEvaluationResult,
+            studentId: `student_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`, // Generate unique ID
             studentData: {
               name: studentName || 'John Doe',
               rollNumber: studentRollNo || 'STU001',
@@ -258,7 +259,7 @@ const UploadEvaluationPage = () => {
       }
 
       const notificationData = {
-        studentId: result.studentId,
+        studentId: updatedMockResult.studentId, // Use the same unique ID
         evaluationId: result.evaluationId,
         subject,
         studentEmail: emailResult.email,
